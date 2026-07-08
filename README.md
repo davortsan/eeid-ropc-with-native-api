@@ -4,6 +4,10 @@
 
 This project is an ASP.NET Core MVC proof of concept for Microsoft Entra External ID.
 
+> IMPORTANT
+> This transparent authentication approach is not recommended for real applications when the application itself controls or handles the user's username or email address and password.
+> Use this project only for testing, validation, or isolated demo scenarios.
+
 The application demonstrates a fully server-driven test flow that:
 
 1. generates a random customer account,
