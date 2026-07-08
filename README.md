@@ -81,6 +81,26 @@ Key files and folders:
 - `eeid-ropc-with-native-api/appsettings.json`
 	Contains the sample configuration for the demo.
 
+## Sample Configuration
+
+The project ships with placeholder values in `eeid-ropc-with-native-api/appsettings.json`.
+
+```json
+{
+	"ExternalIdDemo": {
+		"TenantDomain": "<YOUR_TENANT>.onmicrosoft.com",
+		"TenantSubdomain": "<YOUR_TENANT>",
+		"NativeAuthClientId": "<NATIVE_APP_CLIENT_ID>",
+		"GraphClientId": "<GRAPH_APP_CLIENT_ID>",
+		"GraphClientSecret": "<GRAPH_APP_CLIENT_SECRET>",
+		"GraphScope": "https://graph.microsoft.com/.default",
+		"UserEmailDomain": "<YOUR_TENANT>.onmicrosoft.com"
+	}
+}
+```
+
+Replace all placeholder values before running the demo.
+
 ## Native Authentication Flow Used
 
 The application uses the email-and-password Native Authentication flow for Microsoft Entra External ID.
@@ -130,7 +150,7 @@ Current settings:
 	Optional capability flags sent to the Native Authentication initiate endpoint. If omitted, no capabilities parameter is sent.
 
 - `GraphClientId`
-	The client ID of the confidential app used to request a Microsoft Graph access token.
+	The client ID of the confidential app used to request a Microsoft Graph access token. This can be different from the Native Authentication app registration.
 
 - `GraphClientSecret`
 	The client secret for the Graph app registration.
@@ -162,6 +182,7 @@ Before running the demo, make sure the tenant is configured correctly.
 - The app must be able to obtain an app-only token.
 - It must have sufficient Microsoft Graph application permissions to create users.
 - Admin consent must be granted.
+- It must have a valid client secret configured in the application settings.
 
 Typical permissions include one of these:
 
@@ -218,6 +239,25 @@ On a failed run, the UI should show enough diagnostic detail to identify whether
 - Conditional Access,
 - MFA registration requirements,
 - invalid client or tenant settings.
+
+## Troubleshooting
+
+### Placeholder Configuration
+
+If `appsettings.json` still contains placeholder values such as `<YOUR_TENANT>`, `<NATIVE_APP_CLIENT_ID>`, or `<GRAPH_APP_CLIENT_SECRET>`, the application now fails early with a configuration error instead of making invalid HTTP calls.
+
+### HTML Instead Of JSON
+
+If an endpoint returns HTML instead of JSON, the application now reports a clearer `invalid_response_format` error. In practice, this usually means one of these:
+
+- the tenant domain or subdomain is wrong,
+- the client ID is invalid for the target tenant,
+- the request is hitting an unexpected endpoint,
+- or configuration placeholders were not replaced.
+
+### Conditional Access
+
+If you see MFA enrollment or Conditional Access related errors, verify whether the app registration used by Native Authentication is included in any blocking policy. In the validated scenario for this project, excluding the Native Authentication app registration from the relevant Conditional Access policy allowed the transparent sign-in flow to complete successfully.
 
 ## Security Notes
 
