@@ -1,4 +1,4 @@
-# EEID Native Authentication Demo
+# Transparent authentication with EEID Native Authentication - DEMO
 
 ## Overview
 
