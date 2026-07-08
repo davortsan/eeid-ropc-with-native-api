@@ -10,7 +10,7 @@ public class ExternalIdDemoOptions
 
     public string NativeAuthClientId { get; set; } = string.Empty;
 
-    public string NativeAuthCapabilities { get; set; } = "registration_required mfa_required";
+    public string NativeAuthCapabilities { get; set; } = string.Empty;
 
     public string GraphClientId { get; set; } = string.Empty;
 

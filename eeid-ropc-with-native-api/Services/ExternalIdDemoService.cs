@@ -100,6 +100,19 @@ public class ExternalIdDemoService : IExternalIdDemoService
                 error: "missing_configuration",
                 errorDescription: "Completa la sección ExternalIdDemo en appsettings con TenantDomain, TenantSubdomain, NativeAuthClientId, GraphClientId, GraphClientSecret y UserEmailDomain.");
         }
+
+        if (ContainsPlaceholder(_options.TenantDomain) ||
+            ContainsPlaceholder(_options.TenantSubdomain) ||
+            ContainsPlaceholder(_options.NativeAuthClientId) ||
+            ContainsPlaceholder(_options.GraphClientId) ||
+            ContainsPlaceholder(_options.GraphClientSecret) ||
+            ContainsPlaceholder(_options.UserEmailDomain))
+        {
+            throw new ExternalIdDemoException(
+                stage: "configuration",
+                error: "placeholder_configuration",
+                errorDescription: "appsettings.json still contains placeholder values. Replace <YOUR_DOMAIN>, NATIVE_AUTH_APP_CLIENT_ID, and NATIVE_AUTH_APP_CLIENT_SECRET with real tenant and app registration values.");
+        }
     }
 
     private async Task<string> AcquireGraphAccessTokenAsync(CancellationToken cancellationToken)
@@ -241,7 +254,21 @@ public class ExternalIdDemoService : IExternalIdDemoService
             throw CreateExceptionFromBody(stage, response.StatusCode, body);
         }
 
-        return JsonDocument.Parse(body);
+        try
+        {
+            return JsonDocument.Parse(body);
+        }
+        catch (JsonException ex)
+        {
+            var contentType = response.Content.Headers.ContentType?.MediaType ?? "unknown";
+            var bodyPreview = body.Length > 240 ? body[..240] : body;
+
+            throw new ExternalIdDemoException(
+                stage: stage,
+                error: "invalid_response_format",
+                errorDescription: $"Expected JSON from '{url}', but received '{contentType}'. Response starts with: {bodyPreview}",
+                innerException: ex);
+        }
     }
 
     private Dictionary<string, string> BuildInitiateRequest(string email)
@@ -395,6 +422,13 @@ public class ExternalIdDemoService : IExternalIdDemoService
         return root.TryGetProperty(propertyName, out var property) ? property.GetString() : null;
     }
 
+    private static bool ContainsPlaceholder(string value)
+    {
+        return value.Contains("<YOUR_DOMAIN>", StringComparison.OrdinalIgnoreCase) ||
+               value.Contains("NATIVE_AUTH_APP_CLIENT_ID", StringComparison.OrdinalIgnoreCase) ||
+               value.Contains("NATIVE_AUTH_APP_CLIENT_SECRET", StringComparison.OrdinalIgnoreCase);
+    }
+
     private sealed class ExternalIdDemoException : Exception
     {
         public ExternalIdDemoException(
@@ -404,8 +438,9 @@ public class ExternalIdDemoService : IExternalIdDemoService
             string? subError = null,
             string? traceId = null,
             string? correlationId = null,
-            string? userId = null)
-            : base(errorDescription)
+            string? userId = null,
+            Exception? innerException = null)
+            : base(errorDescription, innerException)
         {
             Stage = stage;
             Error = error;
