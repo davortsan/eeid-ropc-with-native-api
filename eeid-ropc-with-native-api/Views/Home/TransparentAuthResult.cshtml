@@ -1,0 +1,83 @@
+@model eeid_ropc_with_native_api.Models.TransparentAuthResultViewModel
+
+@{
+    ViewData["Title"] = "Resultado autenticación";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-lg-5">
+                @if (Model.Success)
+                {
+                    <div class="alert alert-success" role="alert">
+                        <h1 class="h3 mb-2">OK</h1>
+                        <p class="mb-0">La autenticación transparente se completó correctamente.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <h1 class="h3 mb-2">Fallo de autenticación</h1>
+                        <p class="mb-0">La prueba no pudo completarse correctamente.</p>
+                    </div>
+                }
+
+                <dl class="row mb-4">
+                    <dt class="col-sm-3">Email</dt>
+                    <dd class="col-sm-9">@Model.Email</dd>
+
+                    <dt class="col-sm-3">Password</dt>
+                    <dd class="col-sm-9"><code>@Model.Password</code></dd>
+
+                    <dt class="col-sm-3">Fase</dt>
+                    <dd class="col-sm-9">@(Model.Stage ?? "completada")</dd>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.UserId))
+                    {
+                        <dt class="col-sm-3">User Id</dt>
+                        <dd class="col-sm-9">@Model.UserId</dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.AuthenticationToken))
+                    {
+                        <dt class="col-sm-3">Token</dt>
+                        <dd class="col-sm-9" style="word-break: break-all;"><code>@Model.AuthenticationToken</code></dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Error))
+                    {
+                        <dt class="col-sm-3">Error</dt>
+                        <dd class="col-sm-9">@Model.Error</dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.SubError))
+                    {
+                        <dt class="col-sm-3">Suberror</dt>
+                        <dd class="col-sm-9">@Model.SubError</dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ErrorDescription))
+                    {
+                        <dt class="col-sm-3">Detalle</dt>
+                        <dd class="col-sm-9">@Model.ErrorDescription</dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.TraceId))
+                    {
+                        <dt class="col-sm-3">Trace Id</dt>
+                        <dd class="col-sm-9">@Model.TraceId</dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.CorrelationId))
+                    {
+                        <dt class="col-sm-3">Correlation Id</dt>
+                        <dd class="col-sm-9">@Model.CorrelationId</dd>
+                    }
+                </dl>
+
+                <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+            </div>
+        </div>
+    </div>
+</div>

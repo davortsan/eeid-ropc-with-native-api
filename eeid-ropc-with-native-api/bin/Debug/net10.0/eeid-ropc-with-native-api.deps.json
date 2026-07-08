@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "eeid-ropc-with-native-api/1.0.0": {
+        "runtime": {
+          "eeid-ropc-with-native-api.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "eeid-ropc-with-native-api/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

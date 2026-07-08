@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Prueba EEID Native Auth";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-body p-4 p-lg-5">
+                <span class="badge text-bg-primary mb-3">EEID Native Auth</span>
+                <h1 class="display-6 mb-3">Crear usuario y autenticar de forma transparente</h1>
+                <p class="lead mb-4">
+                    Este flujo crea un usuario aleatorio en tu tenant External ID mediante Microsoft Graph y, a continuación,
+                    intenta autenticarse con Native Authentication API usando email y password.
+                </p>
+
+                <form asp-action="RunTransparentAuth" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-primary btn-lg">Ejecutar prueba</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
