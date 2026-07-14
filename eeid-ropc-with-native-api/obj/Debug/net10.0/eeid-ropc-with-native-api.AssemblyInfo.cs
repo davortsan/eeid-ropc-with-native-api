@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eeid-ropc-with-native-api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a0374a4eaf07a8a0b6a6a5ae492f12c3769829c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+33455e6f28c13374943542a9159f15932cd536db")]
 [assembly: System.Reflection.AssemblyProductAttribute("eeid-ropc-with-native-api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eeid-ropc-with-native-api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
